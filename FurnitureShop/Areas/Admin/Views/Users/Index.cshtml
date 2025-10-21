@@ -1,0 +1,45 @@
+﻿@model IEnumerable<FurnitureShop.Areas.Admin.Controllers.UserViewModel>
+@{
+  
+    ViewData["Title"] = "Người dùng";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Danh sách người dùng</h2>
+
+    <table class="table table-striped table-bordered align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Email</th>
+                <th>Họ tên</th>
+                <th>Quyền</th>
+                <th class="text-center">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var u in Model)
+            {
+                <tr>
+                    <td>@u.Email</td>
+                    <td>@u.FullName</td>
+                    <td>@u.Roles</td>
+                    <td class="text-center">
+                        <form asp-action="ToggleAdmin" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@u.Id" />
+                            <button type="submit" class="btn btn-sm btn-outline-primary">
+                                @(u.Roles?.Contains("Admin") == true ? "Bỏ quyền Admin" : "Cấp quyền Admin")
+                            </button>
+                        </form>
+
+                        <form asp-action="ToggleLock" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@u.Id" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                Khóa / Mở
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

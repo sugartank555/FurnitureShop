@@ -1,0 +1,35 @@
+﻿@model FurnitureShop.Models.Cart
+@{
+  
+    ViewData["Title"] = "Thanh toán";
+    decimal total = Model.Items?.Sum(i => i.Quantity * (i.Product?.Price ?? 0)) ?? 0;
+}
+
+<h2>Xác nhận đơn hàng</h2>
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>Sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Giá</th>
+            <th>Tổng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items!)
+        {
+            <tr>
+                <td>@item.Product?.Name</td>
+                <td>@item.Quantity</td>
+                <td>@item.Product?.Price.ToString("N0") đ</td>
+                <td>@((item.Product?.Price ?? 0) * item.Quantity).ToString("N0") đ</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h4 class="text-end">Tổng cộng: <span class="text-danger fw-bold">@total.ToString("N0") đ</span></h4>
+
+<form asp-action="Confirm" method="post" class="text-end mt-3">
+    <button type="submit" class="btn btn-success btn-lg">Xác nhận đặt hàng</button>
+</form>

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<FurnitureShop.Models.Order>
+@{
+
+    ViewData["Title"] = "Đơn hàng";
+}
+
+<div class="container mt-4">
+    <h2>Quản lý đơn hàng</h2>
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>Mã đơn</th>
+                <th>Khách hàng</th>
+                <th>Ngày đặt</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var o in Model)
+            {
+                <tr>
+                    <td>#@o.Id</td>
+                    <td>@o.User?.FullName</td>
+                    <td>@o.OrderDate.ToString("dd/MM/yyyy")</td>
+                    <td>@o.TotalAmount.ToString("N0") đ</td>
+                    <td>@o.Status</td>
+                    <td class="text-end">
+                        <a asp-action="Details" asp-route-id="@o.Id" class="btn btn-sm btn-outline-primary">Chi tiết</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

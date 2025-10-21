@@ -1,0 +1,55 @@
+﻿@{
+ 
+    ViewData["Title"] = "Báo cáo doanh thu";
+    var top = ViewBag.TopProducts as IEnumerable<dynamic>;
+}
+
+<div class="container mt-4">
+    <h2>Báo cáo tổng hợp</h2>
+
+    <div class="row my-3">
+        <div class="col-md-4">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5>Tổng doanh thu</h5>
+                    <h3>@($"{(decimal)ViewBag.TotalRevenue:N0} đ")</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5>Tổng số đơn</h5>
+                    <h3>@ViewBag.TotalOrders</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h4>Top 5 sản phẩm bán chạy</h4>
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Tên sản phẩm</th>
+                <th>Số lượng bán</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (top != null)
+            {
+                foreach (var p in top)
+                {
+                    <tr>
+                        <td>@p.Name</td>
+                        <td>@p.Sold</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="2" class="text-center text-muted">Chưa có dữ liệu</td></tr>
+            }
+        </tbody>
+    </table>
+</div>

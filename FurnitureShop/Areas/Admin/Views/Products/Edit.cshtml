@@ -1,0 +1,45 @@
+﻿@model FurnitureShop.Models.Product
+@{
+    
+    ViewData["Title"] = "Chỉnh sửa sản phẩm";
+}
+<div class="container mt-4">
+    <h2>Chỉnh sửa sản phẩm</h2>
+    <form asp-action="Edit" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Id" />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label">Tên sản phẩm</label>
+                    <input asp-for="Name" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Giá</label>
+                    <input asp-for="Price" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Thương hiệu</label>
+                    <input asp-for="Brand" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Danh mục</label>
+                    <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select"></select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Ảnh hiện tại</label><br />
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" width="100" class="rounded mb-2" />
+                    }
+                    <input type="file" name="imageFile" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Mô tả</label>
+                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
+                <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+            </div>
+        </div>
+    </form>
+</div>

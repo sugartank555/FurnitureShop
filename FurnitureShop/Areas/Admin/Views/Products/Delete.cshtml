@@ -1,0 +1,29 @@
+﻿@model FurnitureShop.Models.Product
+
+@{
+   
+    ViewData["Title"] = "Xóa sản phẩm";
+}
+
+<div class="container mt-4">
+    <h2>Xóa sản phẩm</h2>
+    <h5>Bạn có chắc muốn xóa sản phẩm này?</h5>
+    <hr />
+
+    <dl class="row">
+        <dt class="col-sm-3">Tên:</dt>
+        <dd class="col-sm-9">@Model.Name</dd>
+
+        <dt class="col-sm-3">Giá:</dt>
+        <dd class="col-sm-9">@Model.Price.ToString("N0") đ</dd>
+
+        <dt class="col-sm-3">Danh mục:</dt>
+        <dd class="col-sm-9">@Model.Category?.Name</dd>
+    </dl>
+
+    <form asp-action="DeleteConfirmed" method="post">
+        <input type="hidden" asp-for="Id" />  <!-- 🟢 Chữ I viết hoa, trùng với model -->
+        <button type="submit" class="btn btn-danger">Xóa</button>
+        <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+    </form>
+</div>

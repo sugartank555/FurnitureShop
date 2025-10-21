@@ -1,0 +1,59 @@
+﻿@model FurnitureShop.Models.Cart
+@{
+    ViewData["Title"] = "Giỏ hàng của bạn";
+    decimal total = Model.Items?.Sum(i => i.Quantity * (i.Product?.Price ?? 0)) ?? 0;
+}
+
+<div class="container mt-4">
+    <h2>🛒 Giỏ hàng của bạn</h2>
+
+    @if (Model.Items == null || !Model.Items.Any())
+    {
+        <div class="alert alert-warning mt-3">Giỏ hàng của bạn đang trống!</div>
+        <a href="/Home/Shop" class="btn btn-primary">Tiếp tục mua sắm</a>
+    }
+    else
+    {
+        <table class="table table-bordered mt-3 align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Hình ảnh</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Tổng</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items!)
+                {
+                    <tr>
+                        <td><img src="@item.Product?.ImageUrl" width="80" /></td>
+                        <td>@item.Product?.Name</td>
+                        <td>@item.Product?.Price.ToString("N0") đ</td>
+                        <td>@item.Quantity</td>
+                        <td>@((item.Product?.Price ?? 0) * item.Quantity).ToString("N0") đ</td>
+                        <td>
+                            <form asp-action="Remove" method="post" class="d-inline">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <button type="submit" class="btn btn-sm btn-danger">Xóa</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-between">
+            <form asp-action="Clear" method="post">
+                <button type="submit" class="btn btn-outline-danger">Xóa tất cả</button>
+            </form>
+            <h4>Tổng cộng: <span class="text-danger fw-bold">@total.ToString("N0") đ</span></h4>
+        </div>
+
+        <div class="text-end mt-3">
+            <a href="/Checkout" class="btn btn-success btn-lg">Thanh toán</a>
+        </div>
+    }
+</div>

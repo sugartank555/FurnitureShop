@@ -1,0 +1,26 @@
+﻿@model FurnitureShop.Models.Category
+@{
+    ViewData["Title"] = "Xóa danh mục";
+}
+
+<div class="container mt-4">
+    <h2>Xóa danh mục</h2>
+    <div class="alert alert-warning">
+        <strong>Bạn có chắc chắn muốn xóa danh mục này không?</strong>
+        <p class="mb-0">Hành động này không thể hoàn tác.</p>
+    </div>
+
+    <dl class="row">
+        <dt class="col-sm-3">Tên danh mục:</dt>
+        <dd class="col-sm-9">@Model.Name</dd>
+
+        <dt class="col-sm-3">Mô tả:</dt>
+        <dd class="col-sm-9">@Model.Description</dd>
+    </dl>
+
+    <form asp-action="DeleteConfirmed" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Xóa</button>
+        <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+    </form>
+</div>

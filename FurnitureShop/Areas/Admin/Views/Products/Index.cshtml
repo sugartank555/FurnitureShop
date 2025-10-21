@@ -1,0 +1,43 @@
+﻿@model IEnumerable<FurnitureShop.Models.Product>
+@{
+   
+    ViewData["Title"] = "Danh sách sản phẩm";
+}
+<div class="container mt-4">
+    <h2>Danh sách sản phẩm</h2>
+    <a asp-action="Create" class="btn btn-primary mb-3">+ Thêm sản phẩm</a>
+
+    <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Ảnh</th>
+                <th>Tên</th>
+                <th>Danh mục</th>
+                <th>Giá</th>
+                <th>Thương hiệu</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>
+                        @if (!string.IsNullOrEmpty(p.ImageUrl))
+                        {
+                            <img src="@p.ImageUrl" width="80" height="80" class="rounded" />
+                        }
+                    </td>
+                    <td>@p.Name</td>
+                    <td>@p.Category?.Name</td>
+                    <td>@p.Price.ToString("N0") đ</td>
+                    <td>@p.Brand</td>
+                    <td class="text-end">
+                        <a asp-action="Edit" asp-route-id="@p.Id" class="btn btn-sm btn-warning">Sửa</a>
+                        <a asp-action="Delete" asp-route-id="@p.Id" class="btn btn-sm btn-danger">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

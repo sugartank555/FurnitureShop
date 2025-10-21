@@ -1,0 +1,33 @@
+﻿@{
+    
+    ViewData["Title"] = "Bảng điều khiển";
+}
+<div class="container mt-4">
+    <h2>Bảng điều khiển</h2>
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h5>Sản phẩm</h5>
+                    <h3>@ViewBag.TotalProducts</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body">
+                    <h5>Đơn hàng</h5>
+                    <h3>@ViewBag.TotalOrders</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-dark mb-3">
+                <div class="card-body">
+                    <h5>Người dùng</h5>
+                    <h3>@ViewBag.TotalUsers</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+﻿@model FurnitureShop.Models.Product
+@{
+  
+    ViewData["Title"] = "Chi tiết sản phẩm";
+}
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <img src="@Model.ImageUrl" class="img-fluid rounded" alt="@Model.Name" />
+    </div>
+    <div class="col-md-6">
+        <h2>@Model.Name</h2>
+        <p class="text-danger fw-bold fs-4">@Model.Price.ToString("N0") đ</p>
+        <p>@Model.Description</p>
+
+        <form asp-controller="Cart" asp-action="Add" method="post">
+            <input type="hidden" name="productId" value="@Model.Id" />
+            <input type="hidden" name="quantity" value="1" />
+            <button type="submit" class="btn btn-primary btn-lg">🛒 Thêm vào giỏ</button>
+        </form>
+
+    </div>
+</div>

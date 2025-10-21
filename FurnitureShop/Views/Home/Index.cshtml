@@ -1,0 +1,122 @@
+﻿@using FurnitureShop.Models
+@{
+    ViewData["Title"] = "Trang chủ";
+    var featured = ViewBag.Featured as IEnumerable<Product>;
+}
+
+<!-- 🔹 CSS hiệu ứng -->
+<style>
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @@keyframes zoomIn {
+        from {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .fullscreen-ad {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        animation: fadeIn 0.6s ease-out;
+    }
+
+        .fullscreen-ad .ad-content {
+            position: relative;
+            text-align: center;
+            animation: zoomIn 0.5s ease;
+        }
+</style>
+
+<!-- 🔔 QUẢNG CÁO TOÀN MÀN HÌNH -->
+<div id="fullscreen-ad" class="fullscreen-ad" style="display:none;">
+    <div class="ad-content text-center">
+        <button class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+                aria-label="Đóng" onclick="closeAd()"></button>
+
+        <img src="~/images/bowl-2.png" alt="Khuyến mãi Trung Thu"
+             class="img-fluid rounded shadow"
+             style="max-height: 400px;" />
+
+        <h2 class="text-white mt-3 fw-bold">🎉 Giảm đến 50% tất cả sản phẩm Trung Thu!</h2>
+        <a href="/Home/Shop" class="btn btn-warning btn-lg mt-3 fw-bold shadow">🛍️ Mua ngay</a>
+    </div>
+</div>
+
+<!-- 🔹 Script xử lý hiển thị quảng cáo -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const ad = document.getElementById("fullscreen-ad");
+
+        // ⚙️ Gỡ comment dòng dưới nếu muốn test hiển thị lại popup mỗi lần F5
+        // localStorage.removeItem("adShown");
+
+        const adShown = localStorage.getItem("adShown");
+
+        if (!adShown && ad) {
+            ad.style.display = "flex"; // Hiển thị quảng cáo ngay
+            setTimeout(() => closeAd(), 5000); // Tự đóng sau 5 giây
+        }
+    });
+
+    function closeAd() {
+        const ad = document.getElementById("fullscreen-ad");
+        if (ad) {
+            ad.style.display = "none";
+            localStorage.setItem("adShown", "true"); // Lưu để không hiển thị lại
+        }
+    }
+</script>
+
+<!-- 🔹 Banner chính -->
+<div class="text-center my-5">
+    <h1 class="fw-bold text-primary">Nội thất sang trọng cho mọi nhà</h1>
+    <p class="fs-5 text-muted">Khám phá bàn, ghế, đèn và đồ trang trí tuyệt đẹp — thiết kế tinh tế, hiện đại.</p>
+    <a href="/Home/Shop" class="btn btn-primary btn-lg px-4 py-2 mt-2 shadow">🪑 Mua ngay</a>
+</div>
+
+<!-- 🔹 Danh sách sản phẩm nổi bật -->
+<div class="row mt-5">
+    <h3 class="mb-3 text-center fw-bold text-secondary">Sản phẩm nổi bật</h3>
+    @if (featured != null && featured.Any())
+    {
+        @foreach (var p in featured)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <img src="@p.ImageUrl" class="card-img-top" alt="@p.Name" />
+                    <div class="card-body text-center">
+                        <h5 class="card-title">@p.Name</h5>
+                        <p class="text-danger fw-bold">@p.Price.ToString("N0") đ</p>
+                        <a href="/Home/Details/@p.Id" class="btn btn-outline-primary">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="text-center text-muted">Chưa có sản phẩm nổi bật nào.</p>
+    }
+</div>

@@ -1,0 +1,56 @@
+﻿@model FurnitureShop.Models.Order
+@{
+    ViewData["Title"] = "Chi tiết đơn hàng";
+}
+
+<div class="container mt-4">
+    <h2>Chi tiết đơn hàng #@Model.Id</h2>
+    <hr />
+
+    <p><strong>Khách hàng:</strong> @Model.User?.FullName</p>
+    <p><strong>Email:</strong> @Model.User?.Email</p>
+    <p><strong>Ngày đặt:</strong> @Model.OrderDate.ToString("dd/MM/yyyy")</p>
+    <p><strong>Trạng thái:</strong> @Model.Status</p>
+
+    <form asp-action="UpdateStatus" method="post" class="mb-3">
+        <input type="hidden" name="id" value="@Model.Id" />
+
+        <select name="status" class="form-select w-auto d-inline-block">
+            @foreach (var status in Enum.GetValues(typeof(FurnitureShop.Models.OrderStatus)))
+            {
+                <option value="@status" selected="@(Model.Status == (FurnitureShop.Models.OrderStatus)status)">
+                    @status
+                </option>
+            }
+        </select>
+
+        <button type="submit" class="btn btn-success">Cập nhật</button>
+    </form>
+
+
+    <h4>Sản phẩm trong đơn</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Tên</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>@item.Product?.Name</td>
+                    <td>@item.Price.ToString("N0") đ</td>
+                    <td>@item.Quantity</td>
+                    <td>@(item.Price* item.Quantity).ToString("N0") đ</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h4 class="text-end">Tổng cộng: @Model.TotalAmount.ToString("N0") đ</h4>
+    <a asp-action="Index" class="btn btn-secondary mt-3">Quay lại</a>
+</div>

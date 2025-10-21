@@ -1,0 +1,185 @@
+﻿<!doctype html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Untree.co">
+	<link rel="shortcut icon" href="~/images/favicon.png" />
+	<title>@ViewData["Title"] - FurnitureShop</title>
+
+	<!-- Bootstrap & Custom CSS -->
+	<link href="~/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+	<link href="~/css/tiny-slider.css" rel="stylesheet" />
+	<link href="~/css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+
+	<script>
+		// ⏳ Tự động đóng sau 5 giây
+		document.addEventListener("DOMContentLoaded", () => {
+			setTimeout(() => {
+				const alertEl = document.getElementById('promo-alert');
+				if (alertEl) {
+					const alert = bootstrap.Alert.getOrCreateInstance(alertEl);
+					alert.close();
+				}
+			}, 5000);
+		});
+	</script>
+
+	<!-- 🔹 Navbar -->
+	<nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark" aria-label="Furni navigation bar">
+		<div class="container">
+			<a class="navbar-brand" href="/Home/Index">FurnitureShop<span>.</span></a>
+
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni"
+					aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarsFurni">
+				<ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+					<li class="nav-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")">
+						<a class="nav-link" href="/Home/Index">Trang chủ</a>
+					</li>
+					<li><a class="nav-link" href="/Home/Shop">Cửa hàng</a></li>
+					<li><a class="nav-link" href="/Home/About">Giới thiệu</a></li>
+					<li><a class="nav-link" href="/Home/Services">Dịch vụ</a></li>
+					<li><a class="nav-link" href="/Home/Contact">Liên hệ</a></li>
+
+					@if (User.Identity?.IsAuthenticated ?? false)
+					{
+						<li><a class="nav-link" href="/Orders/History">Đơn hàng của tôi</a></li>
+
+						@* ✅ Hiển thị nút Admin nếu người dùng có Role = "Admin" *@
+						@if (User.IsInRole("Admin"))
+						{
+							<li>
+								<a class="nav-link text-warning fw-bold" href="~/Admin/Products">
+									<i class="fa-solid fa-gear me-1"></i> Quản trị
+								</a>
+							</li>
+						}
+					}
+				</ul>
+
+				<!-- ✅ Giỏ hàng + Đăng nhập/Đăng ký -->
+				<ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
+					<li>
+						<a class="nav-link position-relative" href="/Cart/Index">
+							<img src="~/images/cart.svg" alt="Giỏ hàng" />
+							@if (ViewBag.CartCount != null && (int)ViewBag.CartCount > 0)
+							{
+								<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+									@ViewBag.CartCount
+								</span>
+							}
+						</a>
+					</li>
+					<partial name="_LoginPartial" />
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<main>
+		<div class="container my-5">
+			@RenderBody()
+		</div>
+	</main>
+
+	<!-- 🔹 Footer -->
+	<footer class="footer-section">
+		<div class="container relative">
+
+			<div class="row">
+				<div class="col-lg-8">
+					<div class="subscription-form">
+						<form class="row g-3">
+							<div class="col-auto">
+								<input type="text" class="form-control" placeholder="Tên của bạn" />
+							</div>
+							<div class="col-auto">
+								<input type="email" class="form-control" placeholder="Email của bạn" />
+							</div>
+							<div class="col-auto">
+								<button class="btn btn-primary"><span class="fa fa-paper-plane"></span></button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="row g-5 mb-5">
+				<div class="col-lg-4">
+					<div class="mb-4 footer-logo-wrap"><a href="/" class="footer-logo">FurnitureShop<span>.</span></a></div>
+					<p class="mb-4">Nội thất cao cấp cho ngôi nhà của bạn — đơn giản, tinh tế và tiện nghi.</p>
+					<ul class="list-unstyled custom-social">
+						<li><a href="#"><span class="fa fa-brands fa-facebook-f"></span></a></li>
+						<li><a href="#"><span class="fa fa-brands fa-instagram"></span></a></li>
+						<li><a href="#"><span class="fa fa-brands fa-twitter"></span></a></li>
+						<li><a href="#"><span class="fa fa-brands fa-linkedin"></span></a></li>
+					</ul>
+				</div>
+
+				<div class="col-lg-8">
+					<div class="row links-wrap">
+						<div class="col-6 col-md-3">
+							<ul class="list-unstyled">
+								<li><a href="/Home/About">Về chúng tôi</a></li>
+								<li><a href="/Home/Services">Dịch vụ</a></li>
+								<li><a href="/Home/Contact">Liên hệ</a></li>
+							</ul>
+						</div>
+						<div class="col-6 col-md-3">
+							<ul class="list-unstyled">
+								<li><a href="#">Hỗ trợ</a></li>
+								<li><a href="#">Chính sách bảo hành</a></li>
+								<li><a href="#">Góp ý & Phản hồi</a></li>
+							</ul>
+						</div>
+						<div class="col-6 col-md-3">
+							<ul class="list-unstyled">
+								<li><a href="#">Tuyển dụng</a></li>
+								<li><a href="#">Đội ngũ</a></li>
+								<li><a href="#">Chính sách riêng tư</a></li>
+							</ul>
+						</div>
+						<div class="col-6 col-md-3">
+							<ul class="list-unstyled">
+								<li><a href="#">Ghế gỗ</a></li>
+								<li><a href="#">Bàn ăn</a></li>
+								<li><a href="#">Ghế Sofa</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="border-top copyright pt-4">
+				<div class="row">
+					<div class="col-lg-6 text-center text-lg-start">
+						<p class="mb-2">
+							Copyright © @DateTime.Now.Year FurnitureShop.
+							Thiết kế bởi <a href="https://untree.co">Untree.co</a>.
+						</p>
+					</div>
+					<div class="col-lg-6 text-center text-lg-end">
+						<ul class="list-unstyled d-inline-flex ms-auto">
+							<li class="me-4"><a href="#">Điều khoản</a></li>
+							<li><a href="#">Chính sách bảo mật</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<script src="~/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/tiny-slider.js"></script>
+	<script src="~/js/custom.js"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

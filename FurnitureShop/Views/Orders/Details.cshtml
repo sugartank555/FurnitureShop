@@ -1,0 +1,39 @@
+﻿@model FurnitureShop.Models.Order
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = $"Chi tiết đơn hàng #{Model.Id}";
+}
+
+<div class="container mt-4">
+    <h2>Chi tiết đơn hàng #@Model.Id</h2>
+    <p><strong>Ngày đặt:</strong> @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
+    <p><strong>Trạng thái:</strong> <span class="fw-bold">@Model.Status</span></p>
+
+    <table class="table table-bordered mt-4">
+        <thead class="table-light">
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Tổng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items!)
+            {
+                <tr>
+                    <td>@item.Product?.Name</td>
+                    <td>@item.Price.ToString("N0") đ</td>
+                    <td>@item.Quantity</td>
+                    <td>@(item.Quantity* item.Price).ToString("N0") đ</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="text-end mt-3">
+        <h4>Tổng cộng: <span class="text-danger fw-bold">@Model.TotalAmount.ToString("N0") đ</span></h4>
+    </div>
+
+    <a href="/Orders/History" class="btn btn-outline-primary mt-3">← Quay lại lịch sử đơn hàng</a>
+</div>
