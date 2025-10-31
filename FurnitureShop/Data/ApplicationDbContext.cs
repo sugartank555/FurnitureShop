@@ -17,6 +17,7 @@ namespace FurnitureShop.Data
         public DbSet<CartItem> CartItems => Set<CartItem>();
         public DbSet<Order> Orders => Set<Order>();
         public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+        
 
         protected override void OnModelCreating(ModelBuilder b)
         {
@@ -26,10 +27,10 @@ namespace FurnitureShop.Data
 
             // Category - Product (1-n)
             b.Entity<Product>()
-             .HasOne(p => p.Category)
-             .WithMany(c => c.Products)
-             .HasForeignKey(p => p.CategoryId)
-             .OnDelete(DeleteBehavior.Restrict);
+            .HasOne(p => p.Category)
+            .WithMany(c => c.Products)
+            .HasForeignKey(p => p.CategoryId)
+            .OnDelete(DeleteBehavior.Restrict);
 
             // Cart - User (1-n)
             b.Entity<Cart>()

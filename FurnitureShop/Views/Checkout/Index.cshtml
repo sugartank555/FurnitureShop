@@ -1,35 +1,103 @@
 ﻿@model FurnitureShop.Models.Cart
 @{
-  
-    ViewData["Title"] = "Thanh toán";
-    decimal total = Model.Items?.Sum(i => i.Quantity * (i.Product?.Price ?? 0)) ?? 0;
+    ViewData["Title"] = "Xác nhận đơn hàng";
 }
 
-<h2>Xác nhận đơn hàng</h2>
-<table class="table table-bordered mt-3">
-    <thead>
-        <tr>
-            <th>Sản phẩm</th>
-            <th>Số lượng</th>
-            <th>Giá</th>
-            <th>Tổng</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Items!)
-        {
-            <tr>
-                <td>@item.Product?.Name</td>
-                <td>@item.Quantity</td>
-                <td>@item.Product?.Price.ToString("N0") đ</td>
-                <td>@((item.Product?.Price ?? 0) * item.Quantity).ToString("N0") đ</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="container mt-5 mb-5">
+    <h2 class="text-center mb-4">🛒 Xác nhận đơn hàng</h2>
 
-<h4 class="text-end">Tổng cộng: <span class="text-danger fw-bold">@total.ToString("N0") đ</span></h4>
+    @if (Model.Items == null || !Model.Items.Any())
+    {
+        <div class="alert alert-warning text-center">
+            Giỏ hàng của bạn đang trống.
+            <a asp-controller="Products" asp-action="Index" class="alert-link">Mua sắm ngay</a>
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered text-center align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th>Hình ảnh</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Tổng</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>@item.Product?.Name</td>
+                        <td>
+                            <img src="@item.Product?.ImageUrl" alt="@item.Product?.Name"
+                                 width="70" height="70" class="rounded" />
+                        </td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Product?.Price.ToString("N0") đ</td>
+                        <td>@((item.Quantity * (item.Product?.Price ?? 0)).ToString("N0")) đ</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-<form asp-action="Confirm" method="post" class="text-end mt-3">
-    <button type="submit" class="btn btn-success btn-lg">Xác nhận đặt hàng</button>
-</form>
+        <div class="text-end mb-4">
+            <h4><strong>Tổng cộng:</strong> 
+                <span class="text-danger fw-bold">@ViewBag.Total.ToString("N0") đ</span>
+            </h4>
+        </div>
+
+        <form asp-action="Confirm" method="post" class="shadow p-4 rounded bg-light">
+            @Html.AntiForgeryToken()
+
+            <h5 class="fw-bold mb-3">💳 Chọn phương thức thanh toán:</h5>
+
+            <div class="payment-options">
+                <div class="form-check border rounded p-3 mb-3 d-flex align-items-center"
+                     style="cursor:pointer;">
+                    <input class="form-check-input me-3" type="radio" name="paymentMethod" value="Momo" id="momoOption" required>
+                    <label class="form-check-label d-flex align-items-center w-100" for="momoOption">
+                        <img src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png"
+                             alt="Momo Logo" width="60" height="60" class="me-3" />
+                        <div>
+                            <span class="fw-bold">Momo</span><br />
+                            <small class="text-muted">Thanh toán qua ví Momo</small>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="form-check border rounded p-3 mb-3 d-flex align-items-center"
+                     style="cursor:pointer;">
+                    <input class="form-check-input me-3" type="radio" name="paymentMethod" value="COD" id="codOption" required>
+                    <label class="form-check-label d-flex align-items-center w-100" for="codOption">
+                        <img src="https://cdn-icons-png.flaticon.com/512/891/891462.png"
+                             alt="COD Icon" width="60" height="60" class="me-3" />
+                        <div>
+                            <span class="fw-bold">Thanh toán khi nhận hàng (COD)</span><br />
+                            <small class="text-muted">Thanh toán bằng tiền mặt khi nhận hàng</small>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-dark px-5 py-2">
+                    🔒 Xác nhận đặt hàng
+                </button>
+            </div>
+        </form>
+    }
+</div>
+
+<style>
+    .payment-options .form-check:hover {
+        background-color: #f8f9fa;
+        transition: 0.3s;
+        border-color: #28a745;
+    }
+    .form-check-input:checked + label {
+        border-color: #28a745;
+        background-color: #e9f9ee;
+    }
+</style>

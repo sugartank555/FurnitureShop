@@ -1,0 +1,30 @@
+@{
+    ViewData["Title"] = "Cài đặt hệ thống";
+    
+}
+
+<div class="container mt-4">
+    <h2 class="text-primary mb-3">Cài đặt hệ thống</h2>
+
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-success">@ViewBag.Message</div>
+    }
+
+    <form asp-action="SaveSettings" method="post">
+        <div class="mb-3">
+            <label for="siteName" class="form-label">Tên website</label>
+            <input type="text" id="siteName" name="siteName" class="form-control" placeholder="FurnitureShop Admin" />
+        </div>
+
+        <div class="mb-3">
+            <label for="themeColor" class="form-label">Màu chủ đạo</label>
+            <select id="themeColor" name="themeColor" class="form-select">
+                <option value="light">Sáng</option>
+                <option value="dark">Tối</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Lưu cài đặt</button>
+    </form>
+</div>

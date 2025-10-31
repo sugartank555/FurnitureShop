@@ -1,0 +1,96 @@
+@{
+    ViewData["Title"] = "Trang quản trị hệ thống";
+    
+}
+
+<div class="container-fluid">
+    <!-- Phần chào mừng -->
+    <div class="bg-light p-5 rounded-4 shadow-sm mb-4">
+        <h1 class="fw-bold text-primary mb-3">Chào mừng đến với Bảng điều khiển quản trị!</h1>
+        <p class="lead text-secondary">
+            Với vai trò <strong>Quản trị viên (Administrator)</strong>, bạn có toàn quyền điều khiển và giám sát mọi hoạt động của hệ thống.
+            Bạn có thể quản lý sản phẩm, đơn hàng, người dùng, báo cáo và thiết lập toàn bộ nền tảng <strong>FurnitureShop</strong> theo cách bạn muốn.
+        </p>
+        <p class="mb-0 text-muted">
+            Hãy đảm bảo rằng các thao tác được thực hiện chính xác, vì những thay đổi của bạn có thể ảnh hưởng trực tiếp đến trải nghiệm của người dùng cuối.
+        </p>
+    </div>
+
+    <!-- Phần quyền hạn admin -->
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-primary"><i class="fa-solid fa-couch me-2"></i>Quản lý sản phẩm</h5>
+                    <p class="card-text text-muted">
+                        Admin có thể thêm, sửa, xoá và cập nhật thông tin sản phẩm. Đảm bảo danh mục hàng hoá luôn đầy đủ,
+                        hình ảnh chất lượng cao và giá cả được cập nhật chính xác.
+                    </p>
+                    <a asp-area="Admin" asp-controller="Products" asp-action="Index" class="btn btn-outline-primary btn-sm">Tới trang sản phẩm</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-success"><i class="fa-solid fa-file-invoice me-2"></i>Quản lý đơn hàng</h5>
+                    <p class="card-text text-muted">
+                        Theo dõi trạng thái đơn hàng từ lúc tạo, vận chuyển đến khi hoàn tất. 
+                        Có thể xử lý hoàn tiền, cập nhật trạng thái giao hàng hoặc liên hệ khách hàng nếu cần thiết.
+                    </p>
+                    <a asp-area="Admin" asp-controller="Orders" asp-action="Index" class="btn btn-outline-success btn-sm">Tới trang đơn hàng</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-info"><i class="fa-solid fa-users me-2"></i>Quản lý người dùng</h5>
+                    <p class="card-text text-muted">
+                        Admin có thể phân quyền, khóa hoặc kích hoạt tài khoản người dùng. Đảm bảo môi trường mua sắm an toàn,
+                        thân thiện và công bằng cho tất cả khách hàng.
+                    </p>
+                    <a asp-area="Admin" asp-controller="Users" asp-action="Index" class="btn btn-outline-info btn-sm">Tới trang người dùng</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Báo cáo và cài đặt -->
+    <div class="row g-4 mt-1">
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-warning"><i class="fa-solid fa-chart-line me-2"></i>Báo cáo & Thống kê</h5>
+                    <p class="card-text text-muted">
+                        Xem báo cáo chi tiết về doanh thu, lượng truy cập, sản phẩm bán chạy và hành vi người dùng.
+                        Từ đó, bạn có thể đưa ra quyết định kinh doanh chính xác và hiệu quả hơn.
+                    </p>
+                    <a asp-area="Admin" asp-controller="Reports" asp-action="Index" class="btn btn-outline-warning btn-sm">Xem báo cáo</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-danger"><i class="fa-solid fa-gear me-2"></i>Cài đặt hệ thống</h5>
+                    <p class="card-text text-muted">
+                        Tuỳ chỉnh logo, màu giao diện, thông tin cửa hàng, cấu hình email và bảo mật. 
+                        Đây là khu vực giúp bạn định hình giao diện và vận hành tổng thể của hệ thống.
+                    </p>
+                    <a asp-area="Admin" asp-controller="Settings" asp-action="Index" class="btn btn-outline-danger btn-sm">Vào phần cài đặt</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phần lời nhắc -->
+    <div class="alert alert-primary mt-5 shadow-sm">
+        <i class="fa-solid fa-circle-info me-2"></i>
+        <strong>Lưu ý:</strong> Hãy đảm bảo sao lưu dữ liệu định kỳ để tránh mất mát thông tin quan trọng. 
+        Mọi thao tác trong khu vực quản trị đều được ghi nhận trong nhật ký hệ thống.
+    </div>
+</div>

@@ -1,0 +1,33 @@
+@{
+    ViewData["Title"] = "Thanh toán Momo";
+}
+
+<div class="container mt-5 mb-5">
+    <div class="card shadow p-4 border-0 mx-auto" style="max-width: 450px;">
+        <h3 class="text-center text-success mb-4">Thanh toán qua Momo</h3>
+
+        <form asp-action="ProcessMomoPayment" method="post">
+            <input type="hidden" name="orderId" value="@ViewBag.OrderId" />
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Số điện thoại ví Momo</label>
+                <input type="text" name="momoNumber" class="form-control" placeholder="VD: 0901234567" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Tên chủ ví</label>
+                <input type="text" name="accountName" class="form-control" placeholder="VD: Nguyễn Văn A" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Số tiền thanh toán</label>
+                <input type="text" class="form-control" value="@ViewBag.Amount.ToString("N0") đ" readonly />
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-success w-100">Xác nhận thanh toán</button>
+                <a asp-action="Index" class="btn btn-outline-secondary w-100 mt-2">Hủy</a>
+            </div>
+        </form>
+    </div>
+</div>

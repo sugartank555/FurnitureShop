@@ -18,8 +18,8 @@ namespace FurnitureShop.Controllers
         {
             var userId = User.Claims.First(c => c.Type.Contains("nameidentifier")).Value;
             var cart = await _db.Carts.Include(c => c.Items!)
-                                      .ThenInclude(i => i.Product)
-                                      .FirstOrDefaultAsync(c => c.UserId == userId);
+                                    .ThenInclude(i => i.Product)
+                                    .FirstOrDefaultAsync(c => c.UserId == userId);
 
             if (cart == null)
             {

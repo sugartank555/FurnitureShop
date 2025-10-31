@@ -2,7 +2,6 @@ using FurnitureShop.Data;
 using FurnitureShop.Models;
 using FurnitureShop.Services;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,7 +23,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     options.Password.RequiredLength = 6;
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
-.AddDefaultTokenProviders(); // không thêm AddDefaultIdentity!
+.AddDefaultTokenProviders();
 
 // 3️⃣ Cookie redirect
 builder.Services.ConfigureApplicationCookie(options =>
@@ -33,16 +32,21 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
 });
 
-// 4️⃣ Fake Email Sender
-builder.Services.AddTransient<IEmailSender, FakeEmailSender>();
+// 4️⃣ Email Sender
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
-// 5️⃣ MVC + Razor Pages
+// 5️⃣ Payment Service (Momo)
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+
+// 6️⃣ MVC + Razor Pages
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+// ✅ BUILD APP (sau khi đăng ký tất cả services)
 var app = builder.Build();
 
-// 6️⃣ Pipeline
+// 7️⃣ Pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
@@ -60,7 +64,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// 7️⃣ Routes
+// 8️⃣ Routes
 app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
@@ -69,17 +73,26 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
-// 8️⃣ Seed tài khoản admin
+// 9️⃣ Seed tài khoản Admin & Support
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-    string adminRole = "Admin";
-    if (!await roleManager.RoleExistsAsync(adminRole))
-        await roleManager.CreateAsync(new IdentityRole(adminRole));
+    // Danh sách role cần tạo
+    string[] roleNames = { "Admin", "Support" };
 
+    // Tạo role nếu chưa có
+    foreach (var roleName in roleNames)
+    {
+        if (!await roleManager.RoleExistsAsync(roleName))
+        {
+            await roleManager.CreateAsync(new IdentityRole(roleName));
+        }
+    }
+
+    // 🧑‍💼 1️⃣ Admin
     string adminEmail = "admin@shop.com";
     string adminPassword = "Admin@123";
 
@@ -93,9 +106,30 @@ using (var scope = app.Services.CreateScope())
             FullName = "Quản trị viên",
             EmailConfirmed = true
         };
+
         var result = await userManager.CreateAsync(adminUser, adminPassword);
         if (result.Succeeded)
-            await userManager.AddToRoleAsync(adminUser, adminRole);
+            await userManager.AddToRoleAsync(adminUser, "Admin");
+    }
+
+    // 👩‍💻 2️⃣ Nhân viên CSKH
+    string supportEmail = "support@shop.com";
+    string supportPassword = "Support@123";
+
+    var supportUser = await userManager.FindByEmailAsync(supportEmail);
+    if (supportUser == null)
+    {
+        supportUser = new ApplicationUser
+        {
+            UserName = supportEmail,
+            Email = supportEmail,
+            FullName = "Nhân viên CSKH",
+            EmailConfirmed = true
+        };
+
+        var result = await userManager.CreateAsync(supportUser, supportPassword);
+        if (result.Succeeded)
+            await userManager.AddToRoleAsync(supportUser, "Support");
     }
 }
 

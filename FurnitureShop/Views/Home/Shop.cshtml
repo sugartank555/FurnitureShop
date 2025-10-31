@@ -39,15 +39,15 @@
         <div class="col-md-2">
             <select class="form-select" name="priceRange">
                 <option value="">Tất cả giá</option>
-                <option value="low" selected="@(priceRange == "low")">Dưới 1.000.000đ</option>
-                <option value="mid" selected="@(priceRange == "mid")">1.000.000đ - 5.000.000đ</option>
-                <option value="high" selected="@(priceRange == "high")">Trên 5.000.000đ</option>
+                <option value="low" selected="@(priceRange == "low")">Dưới 5.000.000đ</option>
+                <option value="mid" selected="@(priceRange == "mid")">5.000.000đ - 10.000.000đ</option>
+                <option value="high" selected="@(priceRange == "high")">Trên 10.000.000đ</option>
             </select>
         </div>
         <div class="col-md-3">
             <input type="text" name="search" value="@search" class="form-control" placeholder="🔍 Tìm theo tên sản phẩm..." />
         </div>
-     
+    
         <!-- Nút lọc -->
         <div class="col-md-2 d-grid">
             <button type="submit" class="btn btn-primary fw-bold">Lọc / Tìm</button>

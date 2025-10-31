@@ -89,6 +89,10 @@ namespace FurnitureShop.Models
         public DateTime OrderDate { get; set; } = DateTime.Now;
         public decimal TotalAmount { get; set; }
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
+        
+        // ✅ THÊM THUỘC TÍNH NÀY
+        [StringLength(50)]
+        public string? PaymentMethod { get; set; }
 
         public ICollection<OrderItem>? Items { get; set; }
     }
